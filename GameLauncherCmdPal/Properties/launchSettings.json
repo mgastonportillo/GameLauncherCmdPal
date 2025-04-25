@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "GameLauncherCmdPal (Package)": {
+      "commandName": "MsixPackage",
+      "doNotLaunchApp": true
+    },
+    "GameLauncherCmdPal (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
