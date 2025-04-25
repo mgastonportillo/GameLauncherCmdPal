@@ -16,7 +16,7 @@ internal sealed partial class GameList : ListPage
     {
         _settingsManager = settingsManager;
 
-        Icon = IconHelpers.FromRelativePath(@"Assets\StoreLogo.png");
+        Icon = IconHelpers.FromRelativePaths(@"Assets\GL_LightIcon.png", @"Assets\GL_DarkIcon.png");
         Title = "Game Launcher";
         Name = "Find games";
     }
