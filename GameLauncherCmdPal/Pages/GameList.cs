@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using GameLauncherCmdPal.Commands;
@@ -16,7 +17,7 @@ internal sealed partial class GameList : ListPage
     {
         _settingsManager = settingsManager;
 
-        Icon = IconHelpers.FromRelativePaths(@"Assets\GL_LightIcon.png", @"Assets\GL_DarkIcon.png");
+        Icon = IconHelpers.FromRelativePaths(@"Assets\Extension.light.png", @"Assets\Extension.dark.png");
         Title = "Game Launcher";
         Name = "Find games";
     }
@@ -27,27 +28,31 @@ internal sealed partial class GameList : ListPage
 
         if (!Directory.Exists(customShortcutsPath))
         {
-            return [
+            return
+            [
                 new ListItem(new NoOpCommand())
                 {
                     Title = $"Directory not found: '{customShortcutsPath}'",
-                    Subtitle = "Check Game Launcher settings in PowerToys."
+                    Subtitle = "Check Game Launcher settings in PowerToys.",
+                    MoreCommands = [
+                        new CommandContextItem(_settingsManager.Settings.SettingsPage) { Title = "Game Launcher Settings" }
+                    ]
                 }
             ];
         }
+
+        EmptyContent = new CommandItem(new NoOpCommand())
+        {
+            Icon = Icon,
+            Title = "No matching games found."
+        };
 
         try
         {
             var shortcutFiles = Directory.GetFiles(customShortcutsPath, "*.lnk");
 
-            // Case insensitive
-            var filteredFiles = string.IsNullOrWhiteSpace(SearchText)
-                ? shortcutFiles
-                : shortcutFiles.Where(file => Path.GetFileNameWithoutExtension(file) // Search on filename without extension
-                    .Contains(SearchText, StringComparison.OrdinalIgnoreCase));
-
-            // Convert filtered files to ListItems
-            var items = filteredFiles.Select(shortcutFilePath =>
+            // Convert shortcut files to ListItems
+            var allItems = shortcutFiles.Select(shortcutFilePath =>
             {
                 IIconInfo? gameIcon = null;
 
@@ -65,28 +70,31 @@ internal sealed partial class GameList : ListPage
                     Subtitle = "Game Shortcut",
                     Icon = gameIcon
                 };
-            }).ToArray(); // LINQ to array
+            }).ToList();
 
-            // Return the generated items or a message if no matching games were found
-            return items.Length > 0
-                ? items
-                : [
-                    new ListItem(new NoOpCommand()) // A non-actionable item
-                    {
-                        Title = "No matching games found.",
-                        Subtitle = "Try a different search value."
-                    }
-                  ];
-        }
-        catch (UnauthorizedAccessException ex)
-        {
-            System.Diagnostics.Debug.WriteLine($"[GameList] Access denied reading directory '{customShortcutsPath}': {ex.Message}");
-            return [new ListItem(new NoOpCommand()) { Title = "Access Denied", Subtitle = $"Cannot read directory: {customShortcutsPath}" }];
+            // Use ListHelpers.FilterList to filter items based on SearchText
+            var filteredItems = ListHelpers.FilterList(allItems, SearchText);
+
+            // Score and sort the filtered items
+            var scoredItems = filteredItems
+                .Select(item => new { Item = item, Score = ListHelpers.ScoreListItem(SearchText, item) })
+                .OrderByDescending(scored => scored.Score)
+                .Select(scored => scored.Item)
+                .ToArray();
+
+            return scoredItems;
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"[GameList] Error retrieving game list from '{customShortcutsPath}': {ex.Message}");
-            return [new ListItem(new NoOpCommand()) { Title = "Error Reading Games", Subtitle = "An unexpected error occurred." }];
+            Debug.WriteLine($"[GameList] Error retrieving game list from '{customShortcutsPath}': {ex.Message}");
+            return
+            [
+                new ListItem(new NoOpCommand())
+                {
+                    Title = "Error Reading Games",
+                    Subtitle = "An unexpected error occurred."
+                }
+            ];
         }
     }
 }
