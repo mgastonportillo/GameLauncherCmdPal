@@ -1,7 +1,7 @@
-using System;
-using System.IO;
 using GameLauncherCmdPal.Properties;
 using Microsoft.CommandPalette.Extensions.Toolkit;
+using System;
+using System.IO;
 
 namespace GameLauncherCmdPal.Helpers
 {

@@ -1,6 +1,6 @@
 <div align="center">
 
-# ![GameLauncherLogo](GameLauncherCmdPal/Assets/GL_DarkIcon.png) Game Launcher for CmdPal
+# ![GameLauncherLogo](GameLauncherCmdPal/Assets/StoreLogo.scale-150.png) Game Launcher for CmdPal
 
 Game Launcher is an extension for [PowerToys Command Palette (CmdPal)](https://learn.microsoft.com/en-us/windows/powertoys/command-palette/overview).  
 It allows you to run all your games from a single searchable list within CmdPal.

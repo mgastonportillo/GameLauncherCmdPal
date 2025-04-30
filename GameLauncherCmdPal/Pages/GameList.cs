@@ -1,11 +1,11 @@
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using GameLauncherCmdPal.Commands;
 using GameLauncherCmdPal.Helpers;
 using Microsoft.CommandPalette.Extensions;
 using Microsoft.CommandPalette.Extensions.Toolkit;
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
 
 namespace GameLauncherCmdPal;
 

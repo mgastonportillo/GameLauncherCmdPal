@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.CommandPalette.Extensions.Toolkit;
+using System;
 using System.Diagnostics;
-using Microsoft.CommandPalette.Extensions.Toolkit;
 
 namespace GameLauncherCmdPal.Commands
 {
