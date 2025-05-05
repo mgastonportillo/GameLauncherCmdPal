@@ -14,7 +14,7 @@ public partial class CommandsProvider : CommandProvider
     {
         //Id = "GameLauncherCmdPal";
         DisplayName = "Game Launcher";
-        Icon = IconHelpers.FromRelativePaths(@"Assets\GL_LightIcon.png", @"Assets\GL_DarkIcon.png");
+        Icon = IconHelpers.FromRelativePaths(@"Assets\Extension.light.png", @"Assets\Extension.dark.png");
         Settings = _settingsManager.Settings;
         _commands = [
             new CommandItem(new GameList(_settingsManager)) {

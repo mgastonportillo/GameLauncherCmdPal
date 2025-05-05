@@ -14,12 +14,6 @@
     <EnableMsixTooling>true</EnableMsixTooling>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Sources\**" />
-    <EmbeddedResource Remove="Sources\**" />
-    <None Remove="Sources\**" />
-    <Page Remove="Sources\**" />
-  </ItemGroup>
 
   <ItemGroup>
     <Manifest Include="$(ApplicationManifest)" />
@@ -75,8 +69,4 @@
     <PublishTrimmed>true</PublishTrimmed>
     <PublishSingleFile>true</PublishSingleFile>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PRIResource Remove="Sources\**" />
-  </ItemGroup>
 </Project>
