@@ -24,16 +24,18 @@ internal sealed partial class GameList : ListPage
 
     public override IListItem[] GetItems()
     {
-        string customShortcutsPath = _settingsManager.DefaultPath;
+        string customShortcutsPath = _settingsManager.CustomShortcutsPath;
 
-        if (!Directory.Exists(customShortcutsPath))
+        // Logic to check if all game sources are disabled
+
+        if (!Directory.Exists(customShortcutsPath)) // Implement a check for disabled sources as well
         {
             return
             [
                 new ListItem(new NoOpCommand())
                 {
                     Title = $"Directory not found: '{customShortcutsPath}'",
-                    Subtitle = "Check Game Launcher settings in PowerToys.",
+                    Subtitle = "Set a valid shortcut folder in settings.",
                     MoreCommands = [
                         new CommandContextItem(_settingsManager.Settings.SettingsPage) { Title = "Game Launcher Settings" }
                     ]
@@ -41,6 +43,7 @@ internal sealed partial class GameList : ListPage
             ];
         }
 
+        // Displays a graceful message when no games are found
         EmptyContent = new CommandItem(new NoOpCommand())
         {
             Icon = Icon,
@@ -54,10 +57,8 @@ internal sealed partial class GameList : ListPage
             // Convert shortcut files to ListItems
             var allItems = shortcutFiles.Select(shortcutFilePath =>
             {
-                IIconInfo? gameIcon = null;
-
-                // Attempt to extract the icon
                 string? iconFilePath = ShortcutHelper.ExtractIconToFile(shortcutFilePath);
+                IIconInfo? gameIcon = null;
 
                 if (!string.IsNullOrEmpty(iconFilePath))
                 {

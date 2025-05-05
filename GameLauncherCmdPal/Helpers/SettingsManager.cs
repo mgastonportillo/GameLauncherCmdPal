@@ -10,15 +10,13 @@ namespace GameLauncherCmdPal.Helpers
         private static readonly string _namespace = "gamelauncher";
         private static string Namespaced(string propertyName) => $"{_namespace}.{propertyName}";
 
-        // %LocalAppData%, when packaged, makes it hard for the user to find the folder
-        // so, maybe, IsPackaged() can be leveraged to use that variable more efficiently.
         private static readonly string _defaultCustomShortcutsPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
             "Game Launcher Shortcuts"
         );
 
-        private readonly TextSetting _defaultPath = new(
-            Namespaced(nameof(DefaultPath)),
+        private readonly TextSetting _customShortcutsPath = new(
+            Namespaced(nameof(CustomShortcutsPath)),
             Resources.custom_shortcuts_label,
             Resources.custom_shortcuts_desc,
             _defaultCustomShortcutsPath
@@ -45,10 +43,9 @@ namespace GameLauncherCmdPal.Helpers
             true
         );
 
-        public string DefaultPath
+        public string CustomShortcutsPath
         {
-            // Expand variables so that user can use variables (needs to be polished to match virtualised paths behaviour)
-            get => Environment.ExpandEnvironmentVariables(_defaultPath.Value ?? _defaultCustomShortcutsPath);
+            get => _customShortcutsPath.Value ?? _defaultCustomShortcutsPath;
         }
 
         public bool ToggleXbox
@@ -72,7 +69,7 @@ namespace GameLauncherCmdPal.Helpers
         internal static string SettingsJsonPath()
         {
             var baseDir = Utilities.BaseSettingsPath("Microsoft.CmdPal");
-            Directory.CreateDirectory(baseDir);
+            Directory.CreateDirectory(baseDir); // Idempotent
             return Path.Combine(baseDir, "gamelauncher.json");
         }
 
@@ -82,11 +79,9 @@ namespace GameLauncherCmdPal.Helpers
             // Settings.Add(_toggleEpic); // TBA
             // Settings.Add(_toggleSteam);
             // Settings.Add(_toggleXbox);
-            Settings.Add(_defaultPath);
+            Settings.Add(_customShortcutsPath);
 
             LoadSettings();
-
-            EnsureDirectoryExists(DefaultPath);
 
             // Event handler: Saves the setting when changed via PowerToys UI
             // Currently has a visual bug but a fix has been committed to the PowerToys repo
@@ -94,17 +89,6 @@ namespace GameLauncherCmdPal.Helpers
             {
                 SaveSettings();
             };
-        }
-
-        private static void EnsureDirectoryExists(string path)
-        {
-            string _path = Environment.ExpandEnvironmentVariables(path ?? string.Empty);
-
-            if (string.IsNullOrWhiteSpace(_path))
-            {
-                Console.Error.WriteLine($"[EnsureDirectoryExists] Skipping directory creation: Path is null, empty, or only whitespace after expansion.");
-                return;
-            }
         }
     }
 }

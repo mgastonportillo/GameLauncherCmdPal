@@ -14,7 +14,6 @@
     <EnableMsixTooling>true</EnableMsixTooling>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Remove="Sources\**" />
     <EmbeddedResource Remove="Sources\**" />
