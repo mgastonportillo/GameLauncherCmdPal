@@ -124,7 +124,7 @@
     <value>Custom shortcuts</value>
   </data>
   <data name="toggle_steam_desc" xml:space="preserve">
-    <value>Include Steam games</value>
+    <value>Include games from Steam games</value>
   </data>
   <data name="toggle_xbox_label" xml:space="preserve">
     <value>Xbox Games</value>
@@ -133,12 +133,18 @@
     <value>Steam Games</value>
   </data>
   <data name="toggle_xbox_desc" xml:space="preserve">
-    <value>Include Xbox games</value>
+    <value>Include games from Xbox games</value>
   </data>
   <data name="toggle_epic_label" xml:space="preserve">
     <value>Epic Games</value>
   </data>
   <data name="toggle_epic_desc" xml:space="preserve">
-    <value>Include Epic games</value>
+    <value>Include games from Epic games</value>
+  </data>
+  <data name="toggle_hidden_label" xml:space="preserve">
+    <value>Show hidden games</value>
+  </data>
+  <data name="toggle_hidden_desc" xml:space="preserve">
+    <value>Toggle hidden games visibility</value>
   </data>
 </root>

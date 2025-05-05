@@ -35,7 +35,7 @@ internal sealed partial class GameList : ListPage
                 new ListItem(new NoOpCommand())
                 {
                     Title = $"Directory not found: '{customShortcutsPath}'",
-                    Subtitle = "Set a valid shortcut folder in settings.",
+                    Subtitle = "Set a valid game shortcuts folder in settings.",
                     MoreCommands = [
                         new CommandContextItem(_settingsManager.Settings.SettingsPage) { Title = "Game Launcher Settings" }
                     ]
@@ -47,7 +47,7 @@ internal sealed partial class GameList : ListPage
         EmptyContent = new CommandItem(new NoOpCommand())
         {
             Icon = Icon,
-            Title = "No matching games found."
+            Title = "No matching games found.",
         };
 
         try
@@ -65,11 +65,18 @@ internal sealed partial class GameList : ListPage
                     gameIcon = new IconInfo(iconFilePath);
                 }
 
+
+
                 return new ListItem(new LaunchGameCommand(shortcutFilePath))
                 {
                     Title = Path.GetFileNameWithoutExtension(shortcutFilePath),
                     Subtitle = "Game Shortcut",
-                    Icon = gameIcon
+                    Icon = gameIcon,
+                    MoreCommands = [
+                        new CommandContextItem(new ToggleHiddenCommand(_settingsManager)) {
+                            // RequestedShortcut = KeyChordHelpers.FromModifiers(ctrl: true, vkey: VirtualKey.H)
+                        }
+                    ]
                 };
             }).ToList();
 

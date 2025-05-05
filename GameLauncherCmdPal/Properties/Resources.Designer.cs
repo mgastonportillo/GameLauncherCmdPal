@@ -79,7 +79,7 @@ namespace GameLauncherCmdPal.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Include Epic games.
+        ///   Looks up a localized string similar to Include games from Epic games.
         /// </summary>
         internal static string toggle_epic_desc {
             get {
@@ -97,7 +97,25 @@ namespace GameLauncherCmdPal.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Include Steam games.
+        ///   Looks up a localized string similar to Toggle hidden games visibility.
+        /// </summary>
+        internal static string toggle_hidden_desc {
+            get {
+                return ResourceManager.GetString("toggle_hidden_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show hidden games.
+        /// </summary>
+        internal static string toggle_hidden_label {
+            get {
+                return ResourceManager.GetString("toggle_hidden_label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Include games from Steam games.
         /// </summary>
         internal static string toggle_steam_desc {
             get {
@@ -115,7 +133,7 @@ namespace GameLauncherCmdPal.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Include Xbox games.
+        ///   Looks up a localized string similar to Include games from Xbox games.
         /// </summary>
         internal static string toggle_xbox_desc {
             get {

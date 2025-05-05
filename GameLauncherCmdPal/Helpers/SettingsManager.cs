@@ -43,6 +43,13 @@ namespace GameLauncherCmdPal.Helpers
             true
         );
 
+        private readonly ToggleSetting _toggleHidden = new(
+            Namespaced(nameof(ToggleHidden)),
+            Resources.toggle_hidden_label,
+            Resources.toggle_hidden_desc,
+            false
+        );
+
         public string CustomShortcutsPath
         {
             get => _customShortcutsPath.Value ?? _defaultCustomShortcutsPath;
@@ -66,6 +73,12 @@ namespace GameLauncherCmdPal.Helpers
             set => _toggleEpic.Value = value;
         }
 
+        public bool ToggleHidden
+        {
+            get => _toggleHidden.Value;
+            set => _toggleHidden.Value = value;
+        }
+
         internal static string SettingsJsonPath()
         {
             var baseDir = Utilities.BaseSettingsPath("Microsoft.CmdPal");
@@ -76,15 +89,16 @@ namespace GameLauncherCmdPal.Helpers
         public SettingsManager()
         {
             FilePath = SettingsJsonPath();
-            // Settings.Add(_toggleEpic); // TBA
-            // Settings.Add(_toggleSteam);
-            // Settings.Add(_toggleXbox);
+
             Settings.Add(_customShortcutsPath);
+            // TBA
+            Settings.Add(_toggleEpic);
+            Settings.Add(_toggleSteam);
+            Settings.Add(_toggleXbox);
+            Settings.Add(_toggleHidden);
 
             LoadSettings();
 
-            // Event handler: Saves the setting when changed via PowerToys UI
-            // Currently has a visual bug but a fix has been committed to the PowerToys repo
             Settings.SettingsChanged += (s, a) =>
             {
                 SaveSettings();

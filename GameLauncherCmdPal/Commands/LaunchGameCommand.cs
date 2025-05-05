@@ -28,7 +28,7 @@ namespace GameLauncherCmdPal.Commands
 
         private static string TruncateGameName(string gameName)
         {
-            const int maxLength = 40;
+            const int maxLength = 10;
             return gameName.Length > maxLength ? string.Concat(gameName.AsSpan(0, maxLength), "...") : gameName;
         }
     }
