@@ -61,7 +61,7 @@ namespace GameLauncherCmdPal.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Directory for custom shortcuts.
+        ///   Looks up a localized string similar to Directory for custom game shortcuts.
         /// </summary>
         internal static string custom_shortcuts_desc {
             get {
@@ -70,7 +70,7 @@ namespace GameLauncherCmdPal.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Custom shortcuts.
+        ///   Looks up a localized string similar to Custom Folder.
         /// </summary>
         internal static string custom_shortcuts_label {
             get {
@@ -115,7 +115,7 @@ namespace GameLauncherCmdPal.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Include games from Steam games.
+        ///   Looks up a localized string similar to Include games from Steam.
         /// </summary>
         internal static string toggle_steam_desc {
             get {
@@ -133,7 +133,7 @@ namespace GameLauncherCmdPal.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Include games from Xbox games.
+        ///   Looks up a localized string similar to Include games from Xbox.
         /// </summary>
         internal static string toggle_xbox_desc {
             get {

@@ -10,12 +10,15 @@ namespace GameLauncherCmdPal.Commands
         public ToggleHiddenCommand(SettingsManager settingsManager)
         {
             _settingsManager = settingsManager;
-            Name = "Toggle Hidden";
         }
+
+        public override string Name => "Toggle Hidden";
 
         public override CommandResult Invoke()
         {
             _settingsManager.ToggleHidden = !_settingsManager.ToggleHidden;
+            _settingsManager.SaveSettings();
+
             var toastMessage = new ToastStatusMessage(_settingsManager.ToggleHidden
                 ? "Hidden games are now visible."
                 : "Hidden games are now hidden."

@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="custom_shortcuts_desc" xml:space="preserve">
-    <value>Directory for custom shortcuts</value>
+    <value>Directory for custom game shortcuts</value>
   </data>
   <data name="custom_shortcuts_label" xml:space="preserve">
-    <value>Custom shortcuts</value>
+    <value>Custom Folder</value>
   </data>
   <data name="toggle_steam_desc" xml:space="preserve">
-    <value>Include games from Steam games</value>
+    <value>Include games from Steam</value>
   </data>
   <data name="toggle_xbox_label" xml:space="preserve">
     <value>Xbox Games</value>
@@ -133,7 +133,7 @@
     <value>Steam Games</value>
   </data>
   <data name="toggle_xbox_desc" xml:space="preserve">
-    <value>Include games from Xbox games</value>
+    <value>Include games from Xbox</value>
   </data>
   <data name="toggle_epic_label" xml:space="preserve">
     <value>Epic Games</value>

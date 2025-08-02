@@ -1,4 +1,5 @@
 using GameLauncherCmdPal.Helpers;
+using GameLauncherCmdPal.Pages;
 using Microsoft.CommandPalette.Extensions;
 using Microsoft.CommandPalette.Extensions.Toolkit;
 
@@ -20,7 +21,8 @@ public partial class CommandsProvider : CommandProvider
             new CommandItem(new GameList(_settingsManager)) {
                 Title = DisplayName,
                 MoreCommands = [
-                    new CommandContextItem(Settings.SettingsPage) { Title = "Game Launcher Settings" }
+                    new CommandContextItem(Settings.SettingsPage) { Title = "Game Launcher Settings" },
+                    new CommandContextItem(new HiddenGameList(_settingsManager)) { Title = "Hidden Games" },
                 ]
             },
         ];

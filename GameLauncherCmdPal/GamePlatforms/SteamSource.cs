@@ -1,0 +1,72 @@
+﻿using GameFinder.Common;
+using GameFinder.RegistryUtils;
+using GameFinder.StoreHandlers.Steam;
+using GameLauncherCmdPal.Models;
+using NexusMods.Paths;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace GameLauncherCmdPal.GameSources
+{
+    internal sealed class SteamSource : IGameSource
+    {
+        public string SourceName => "Steam";
+        public IEnumerable<Game> SyncedGames { get; private set; } = Array.Empty<Game>();
+
+        private readonly SteamHandler handler = new(FileSystem.Shared, OperatingSystem.IsWindows() ? WindowsRegistry.Shared : null);
+
+        public async Task SyncGames()
+        {
+            var games = handler.FindAllGames()
+                .Where(x => x.IsGame())
+                .Select(x => x.AsGame());
+
+            var syncedGames = new List<Game>();
+
+            foreach (var game in games)
+            {
+                syncedGames.Add(MapSteamGameToGame(game));
+            }
+
+            SyncedGames = syncedGames;
+            await Task.CompletedTask;
+        }
+
+        private Game MapSteamGameToGame(SteamGame steamGame)
+        {
+            return new Game(
+                name: steamGame.Name,
+                uri: $"steam://launch/{steamGame.AppId}/Dialog",
+                platform: SourceName,
+                iconPath: GetIconPath(steamGame)
+            );
+        }
+
+        private static string? GetIconPath(SteamGame steamGame)
+        {
+            var appIdString = steamGame.AppId.ToString().Trim();
+            var iconCachePath = Path.Combine(steamGame.SteamPath.ToString(), "appcache", "librarycache", appIdString);
+
+            if (!Directory.Exists(iconCachePath))
+            {
+                return Path.Combine("Icons", "steam.png");
+            }
+
+            var files = Directory
+                .GetFiles(iconCachePath, "*.jpg", SearchOption.TopDirectoryOnly)
+                .Where(file =>
+                {
+                    string fileName = Path.GetFileName(file);
+                    return !fileName.StartsWith("header", StringComparison.OrdinalIgnoreCase) &&
+                           !fileName.StartsWith("library", StringComparison.OrdinalIgnoreCase) &&
+                           !fileName.StartsWith("logo", StringComparison.OrdinalIgnoreCase);
+                });
+
+            return files.FirstOrDefault();
+        }
+    }
+}
+
