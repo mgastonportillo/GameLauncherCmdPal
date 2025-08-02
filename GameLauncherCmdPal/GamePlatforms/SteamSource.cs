@@ -1,4 +1,4 @@
-﻿using GameFinder.Common;
+using GameFinder.Common;
 using GameFinder.RegistryUtils;
 using GameFinder.StoreHandlers.Steam;
 using GameLauncherCmdPal.Models;
@@ -22,7 +22,8 @@ namespace GameLauncherCmdPal.GameSources
         {
             var games = handler.FindAllGames()
                 .Where(x => x.IsGame())
-                .Select(x => x.AsGame());
+                .Select(x => x.AsGame())
+                .Where(IsActualGame); // Filter out redistributables and non-games
 
             var syncedGames = new List<Game>();
 
@@ -33,6 +34,35 @@ namespace GameLauncherCmdPal.GameSources
 
             SyncedGames = syncedGames;
             await Task.CompletedTask;
+        }
+
+        private static bool IsActualGame(SteamGame steamGame)
+        {
+            var name = steamGame.Name?.ToLowerInvariant() ?? string.Empty;
+            
+            // Filter out common redistributables and non-game entries
+            var excludePatterns = new[]
+            {
+                "redistributable",
+                "redist",
+                "vcredist",
+                "directx",
+                "microsoft visual c++",
+                "visual c++ redistributable",
+                ".net framework",
+                "steamworks",
+                "steam api",
+                "dedicated server",
+                "server",
+                "sdk",
+                "development kit",
+                "editor",
+                "modding tools",
+                "benchmark",
+                "demo"
+            };
+            
+            return !excludePatterns.Any(pattern => name.Contains(pattern));
         }
 
         private Game MapSteamGameToGame(SteamGame steamGame)
